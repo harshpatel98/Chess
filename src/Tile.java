@@ -28,23 +28,4 @@ public abstract class Tile {
             return null;
         }
     }
-
-
-
-
-    /*
-    f
-    f
-    f
-    f
-    f
-    f
-    f
-    f
-    f
-    f
-    f
-
-
-     */
 }
