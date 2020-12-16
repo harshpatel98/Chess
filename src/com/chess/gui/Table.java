@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 import static javax.swing.SwingUtilities.isLeftMouseButton;
@@ -31,13 +32,13 @@ public class Table {
     private Tile sourceTile;
     private Tile destinationTile;
     private Piece humanMovedPiece;
+    private boolean highlightLegalMoves;
 
 
     private final static Dimension OUTER_FRAME_DIMENSIONS = new Dimension(600,600);
     private final static Dimension BOARD_PANEL_DIMENSION = new Dimension(400,350);
     private final static Dimension TILE_PANEL_DIMENSION = new Dimension(10,10);
-
-    private static String defaultPieceImagesPath = "art/pieces/plain/";
+    private static String defaultPieceImagesPath = "pictures/pieces/plain/";
     private final Color lightTileColor = Color.decode("#FFFFFF");
     private final Color darkTileColor = Color.decode("#000000");
 
@@ -49,12 +50,12 @@ public class Table {
         this.gameFrame.setJMenuBar(tableMenuBar );
         this.gameFrame.setSize(OUTER_FRAME_DIMENSIONS);
         this.chessBoard = Board.createStandardBoard();
-
         this.boardPanel = new BoardPanel();
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
-
+        this.highlightLegalMoves = false;
         this.gameFrame.setVisible(true);
     }
+
 
     private JMenuBar createTableMenuBar() {
         final JMenuBar tableMenuBar = new JMenuBar();
@@ -88,6 +89,8 @@ public class Table {
 
         return fileMenu;
     }
+
+
 
     private class BoardPanel extends JPanel{
          final List<TilePanel> boardTiles;
@@ -130,6 +133,7 @@ public class Table {
             assignTileColour();
             assignTilePieceIcon(chessBoard);
 
+
             //if right click make moves, if left clicked cancel selection
             addMouseListener(new MouseListener() {
                 @Override
@@ -165,10 +169,6 @@ public class Table {
                         SwingUtilities.invokeLater(new Runnable() {
                             @Override
                             public void run() {
-                                /*takenPiecesPanel.redo(moveLog);
-                                if(gameSetup.isAIPlayer(chessBoard.currentPlayer())){
-                                    Table.get().moveMadeUpdate(PlayerType.HUMAN);
-                                }*/
                                 boardPanel.drawBoard(chessBoard);
                             }
                         });
@@ -203,9 +203,33 @@ public class Table {
         public void drawTile(final Board board){
             assignTileColour();
             assignTilePieceIcon(board);
+            highlightLegals(board);
             validate();
             repaint();
         }
+
+        private void highlightLegals(final Board board) {
+            if (true) {
+                for (final Move move : pieceLegalMoves(board)) {
+                    if (move.getDestinationCoordinate() == this.tileId) {
+                        try {
+                            add(new JLabel(new ImageIcon(ImageIO.read(new File("pictures/red_dot.png")))));
+                        }
+                        catch (final IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+
+        private Collection<Move> pieceLegalMoves(final Board board) {
+            if(humanMovedPiece != null && humanMovedPiece.getPieceAllegiance() == board.currentPlayer().getAlliance()) {
+                return humanMovedPiece.calculateLegalMoves(board);
+            }
+            return Collections.emptyList();
+        }
+
         private void assignTilePieceIcon(final Board board){
             this.removeAll();
             if(board.getTile(this.tileId).isTileOccupied()){

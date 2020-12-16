@@ -16,7 +16,7 @@ public class BoardUtils {
     public static final boolean[] EIGHTH_COLUMN = initColumn(7);
     //board row layout, number represents tile number. reference through wikipedia, link included in references
     /*
-    row 8: 0  . . . . . . 7
+    row 8: 0  . . . . . .  7
     row 7: 8  . . . . . . 15
     row 6: 16 . . . . . . 23
     row 5: 24 . . . . . . 31
@@ -35,8 +35,6 @@ public class BoardUtils {
     public static final boolean[] FIRST_ROW = initRow(56);
     //public static final int START_TILE_INDEX = 0;
 
-    public final List<String> ALGEBRAIC_NOTATION = initializeAlgebraicNotation();
-    public final Map<String, Integer> POSITION_TO_COORDINATE = initializePositionToCoordinateMap();
 
     //number of tiles and tiles per row
     public static final int NUM_TILES = 64;
@@ -72,13 +70,6 @@ public class BoardUtils {
 
     }
 
-    public int getCoordinateAtPosition(final String position) {
-        return POSITION_TO_COORDINATE.get(position);
-    }
-
-    public String getPositionAtCoordinate(final int coordinate) {
-        return ALGEBRAIC_NOTATION.get(coordinate);
-    }
 
     // check if the king(s) is/are in check
     public static boolean isThreatenedBoardImmediate(final Board board) {

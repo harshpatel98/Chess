@@ -35,10 +35,9 @@ public abstract  class Piece {
         return this.pieceType;
     }
 
-    public int getPieceValue(){
-        return this.pieceType.getPieceValue();
+    public Alliance getPieceAllegiance() {
+        return this.pieceAlliance;
     }
-
     @Override
     public boolean equals(final Object other){
         if( this == other){
