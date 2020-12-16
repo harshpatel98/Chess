@@ -76,6 +76,10 @@ public abstract  class Piece {
     //return a list of legal moves
     public abstract Collection<Move> calculateLegalMoves (final Board board);
 
+    public int getPieceValue() {
+        return this.pieceType.getPieceValue();
+    }
+
 
     public enum PieceType{
 

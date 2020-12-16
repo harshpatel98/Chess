@@ -9,7 +9,7 @@ public class MiniMax implements MoveStrategy{
     private final BoardEvaluator boardEvaluator;
 
     public MiniMax(){
-        this.boardEvaluator = null;
+        this.boardEvaluator = new StandardBoardEvaluator();
     }
 
     @Override
@@ -20,7 +20,7 @@ public class MiniMax implements MoveStrategy{
     @Override
     public Move execute(Board board, int depth) {
 
-        final long StartTime = System.currentTimeMillis();
+        final long startTime = System.currentTimeMillis();
 
         Move bestMove = null;
 
@@ -31,6 +31,7 @@ public class MiniMax implements MoveStrategy{
         System.out.println(board.currentPlayer()+" Thinking with depth = " +depth);
 
         int numMoves = board.currentPlayer().getLegalMoves().size();
+
         for(final Move move: board.currentPlayer().getLegalMoves()){
 
             final MoveTransition moveTransition = board.currentPlayer().makeMove(move);
@@ -39,10 +40,20 @@ public class MiniMax implements MoveStrategy{
                 currentValue = board.currentPlayer().getAlliance().isWhite()?
                         min(moveTransition.getTransitionBoard(), depth-1):
                         max(moveTransition.getTransitionBoard(), depth-1);
+
+                if(board.currentPlayer().getAlliance().isWhite() && currentValue >= highSeenValue){
+                    highSeenValue = currentValue;
+                    bestMove = move;
+                }else if(board.currentPlayer().getAlliance().isBlack() && currentValue <= lowestSeenValue){
+                    lowestSeenValue = currentValue;
+                    bestMove = move;
+                }
             }
         }
 
-        return null;
+        final long executionTime = System.currentTimeMillis() - startTime;
+
+        return bestMove;
     }
 
 
