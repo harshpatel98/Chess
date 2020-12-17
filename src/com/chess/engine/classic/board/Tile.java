@@ -1,6 +1,6 @@
-package com.chess.engine.board;
+package com.chess.engine.classic.board;
 
-import com.chess.engine.pieces.Piece;
+import com.chess.engine.classic.pieces.Piece;
 import com.google.common.collect.ImmutableMap;
 
 import java.util.HashMap;
@@ -68,7 +68,7 @@ public abstract class Tile {
 
         @Override
         public String toString(){
-            return getPiece().getPieceAlliance().isBlack() ? getPiece().toString().toLowerCase() : getPiece().toString();
+            return getPiece().getPieceAllegiance().isBlack() ? getPiece().toString().toLowerCase() : getPiece().toString();
         }
 
         @Override
