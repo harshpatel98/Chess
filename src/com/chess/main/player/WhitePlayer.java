@@ -1,20 +1,16 @@
-package com.chess.engine.classic.player;
+package com.chess.main.player;
 
-import com.chess.engine.classic.Alliance;
-import com.chess.engine.classic.board.Board;
-import com.chess.engine.classic.board.BoardUtils;
-import com.chess.engine.classic.board.Move;
-import com.chess.engine.classic.board.Move.KingSideCastleMove;
-import com.chess.engine.classic.board.Move.QueenSideCastleMove;
-import com.chess.engine.classic.pieces.Piece;
-import com.chess.engine.classic.pieces.Rook;
+import com.chess.main.Alliance;
+import com.chess.main.board.Board;
+import com.chess.main.board.BoardUtils;
+import com.chess.main.board.Move;
+import com.chess.main.pieces.Piece;
+import com.chess.main.pieces.Rook;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import static com.chess.engine.classic.pieces.Piece.PieceType.ROOK;
 
 public final class WhitePlayer extends Player {
 
@@ -41,9 +37,9 @@ public final class WhitePlayer extends Player {
                 if(kingSideRook != null && kingSideRook.isFirstMove()) {
                     if(Player.calculateAttacksOnTile(61, opponentLegals).isEmpty() &&
                             Player.calculateAttacksOnTile(62, opponentLegals).isEmpty() &&
-                            kingSideRook.getPieceType() == ROOK) {
+                            kingSideRook.getPieceType() == Piece.PieceType.ROOK) {
                         if(!BoardUtils.isKingPawnTrap(this.board, this.playerKing, 52)) {
-                            kingCastles.add(new KingSideCastleMove(this.board, this.playerKing, 62, (Rook) kingSideRook, kingSideRook.getPiecePosition(), 61));
+                            kingCastles.add(new Move.KingSideCastleMove(this.board, this.playerKing, 62, (Rook) kingSideRook, kingSideRook.getPiecePosition(), 61));
                         }
                     }
                 }
@@ -54,9 +50,9 @@ public final class WhitePlayer extends Player {
                 final Piece queenSideRook = this.board.getPiece(56);
                 if(queenSideRook != null && queenSideRook.isFirstMove()) {
                     if(Player.calculateAttacksOnTile(58, opponentLegals).isEmpty() &&
-                            Player.calculateAttacksOnTile(59, opponentLegals).isEmpty() && queenSideRook.getPieceType() == ROOK) {
+                            Player.calculateAttacksOnTile(59, opponentLegals).isEmpty() && queenSideRook.getPieceType() == Piece.PieceType.ROOK) {
                         if(!BoardUtils.isKingPawnTrap(this.board, this.playerKing, 52)) {
-                            kingCastles.add(new QueenSideCastleMove(this.board, this.playerKing, 58, (Rook) queenSideRook, queenSideRook.getPiecePosition(), 59));
+                            kingCastles.add(new Move.QueenSideCastleMove(this.board, this.playerKing, 58, (Rook) queenSideRook, queenSideRook.getPiecePosition(), 59));
                         }
                     }
                 }

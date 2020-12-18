@@ -1,12 +1,10 @@
-package com.chess.engine.classic.player.ai;
+package com.chess.main.player.ai;
 
-import com.chess.engine.classic.board.Board;
-import com.chess.engine.classic.board.Move;
-import com.chess.engine.classic.pieces.Piece;
-import com.chess.engine.classic.player.Player;
+import com.chess.main.board.Board;
+import com.chess.main.board.Move;
+import com.chess.main.pieces.Piece;
+import com.chess.main.player.Player;
 import com.google.common.annotations.VisibleForTesting;
-
-import static com.chess.engine.classic.pieces.Piece.PieceType.BISHOP;
 
 public final class  StandardBoardEvaluator
         implements BoardEvaluator {
@@ -62,7 +60,7 @@ public final class  StandardBoardEvaluator
         int numBishops = 0;
         for (final Piece piece : player.getActivePieces()) {
             pieceValuationScore += piece.getPieceValue() + piece.locationBonus();
-            if(piece.getPieceType() == BISHOP) {
+            if(piece.getPieceType() == Piece.PieceType.BISHOP) {
                 numBishops++;
             }
         }

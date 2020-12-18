@@ -1,11 +1,10 @@
-package com.chess.engine.classic.board;
+package com.chess.main.board;
 
-import com.chess.engine.classic.Alliance;
-import com.chess.engine.classic.board.Move.MoveFactory;
-import com.chess.engine.classic.pieces.*;
-import com.chess.engine.classic.player.BlackPlayer;
-import com.chess.engine.classic.player.Player;
-import com.chess.engine.classic.player.WhitePlayer;
+import com.chess.main.Alliance;
+import com.chess.main.player.BlackPlayer;
+import com.chess.main.player.Player;
+import com.chess.main.player.WhitePlayer;
+import com.chess.main.pieces.*;
 import com.google.common.collect.ImmutableList;
 
 import java.util.*;
@@ -36,7 +35,7 @@ public final class Board {
         this.whitePlayer = new WhitePlayer(this, whiteStandardMoves, blackStandardMoves);
         this.blackPlayer = new BlackPlayer(this, whiteStandardMoves, blackStandardMoves);
         this.currentPlayer = builder.nextMoveMaker.choosePlayerByAlliance(this.whitePlayer, this.blackPlayer);
-        this.transitionMove = builder.transitionMove != null ? builder.transitionMove : MoveFactory.getNullMove();
+        this.transitionMove = builder.transitionMove != null ? builder.transitionMove : Move.MoveFactory.getNullMove();
     }
 
 

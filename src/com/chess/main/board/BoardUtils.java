@@ -1,7 +1,7 @@
-package com.chess.engine.classic.board;
+package com.chess.main.board;
 
-import com.chess.engine.classic.pieces.King;
-import com.chess.engine.classic.pieces.Piece;
+import com.chess.main.pieces.King;
+import com.chess.main.pieces.Piece;
 
 import java.util.*;
 

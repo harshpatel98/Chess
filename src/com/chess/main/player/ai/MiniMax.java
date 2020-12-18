@@ -1,13 +1,11 @@
-package com.chess.engine.classic.player.ai;
+package com.chess.main.player.ai;
 
-import com.chess.engine.classic.board.Board;
-import com.chess.engine.classic.board.BoardUtils;
-import com.chess.engine.classic.board.Move;
-import com.chess.engine.classic.player.MoveTransition;
+import com.chess.main.board.Board;
+import com.chess.main.board.BoardUtils;
+import com.chess.main.board.Move;
+import com.chess.main.player.MoveTransition;
 
 import java.util.concurrent.atomic.AtomicLong;
-
-import static com.chess.engine.classic.board.Move.*;
 
 public final class MiniMax implements MoveStrategy {
 
@@ -31,7 +29,7 @@ public final class MiniMax implements MoveStrategy {
 
     public Move execute(final Board board) {
         final long startTime = System.currentTimeMillis();
-        Move bestMove = MoveFactory.getNullMove();
+        Move bestMove = Move.MoveFactory.getNullMove();
         int highestSeenValue = Integer.MIN_VALUE;
         int lowestSeenValue = Integer.MAX_VALUE;
         int currentValue;

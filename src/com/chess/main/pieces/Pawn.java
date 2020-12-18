@@ -1,10 +1,10 @@
-package com.chess.engine.classic.pieces;
+package com.chess.main.pieces;
 
-import com.chess.engine.classic.Alliance;
-import com.chess.engine.classic.board.Board;
-import com.chess.engine.classic.board.BoardUtils;
-import com.chess.engine.classic.board.Move;
-import com.chess.engine.classic.board.Move.*;
+import com.chess.main.Alliance;
+import com.chess.main.board.Board;
+import com.chess.main.board.BoardUtils;
+import com.chess.main.board.Move;
+import com.chess.main.board.Move.*;
 
 import java.util.ArrayList;
 import java.util.Collection;

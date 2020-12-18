@@ -1,11 +1,13 @@
 package com.chess.gui;
 
 
-import com.chess.engine.classic.board.*;
-import com.chess.engine.classic.pieces.Piece;
-import com.chess.engine.classic.player.MoveTransition;
-import com.chess.engine.classic.player.ai.MiniMax;
-import com.chess.engine.classic.player.ai.MoveStrategy;
+import com.chess.main.board.Board;
+import com.chess.main.board.BoardUtils;
+import com.chess.main.board.Move;
+import com.chess.main.pieces.Piece;
+import com.chess.main.player.MoveTransition;
+import com.chess.main.player.ai.MiniMax;
+import com.chess.main.player.ai.MoveStrategy;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
