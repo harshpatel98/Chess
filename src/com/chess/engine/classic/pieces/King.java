@@ -14,7 +14,7 @@ import java.util.List;
 
 public final class King extends Piece {
 
-    private final static int[] CANDIDATE_MOVE_COORDINATES = { -9, -8, -7, -1, 1, 7, 8, 9 };
+    private final static int[] CANDIDATE_MOVE_COORDINATES = {-9, -8, -7, -1, 1, 7, 8, 9};
     private final boolean isCastled;
     private final boolean kingSideCastleCapable;
     private final boolean queenSideCastleCapable;

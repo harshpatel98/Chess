@@ -47,17 +47,6 @@ public abstract class Player {
         return this.playerKing.isCastled();
     }
 
-    public boolean isKingSideCastleCapable() {
-        return this.playerKing.isKingSideCastleCapable();
-    }
-
-    public boolean isQueenSideCastleCapable() {
-        return this.playerKing.isQueenSideCastleCapable();
-    }
-
-    public King getPlayerKing() {
-        return this.playerKing;
-    }
 
     private King establishKing() {
         return (King) getActivePieces().stream()
@@ -91,10 +80,6 @@ public abstract class Player {
         return transitionedBoard.currentPlayer().getOpponent().isInCheck() ?
                 new MoveTransition(this.board, this.board, move, MoveStatus.LEAVES_PLAYER_IN_CHECK) :
                 new MoveTransition(this.board, transitionedBoard, move, MoveStatus.DONE);
-    }
-
-    public MoveTransition unMakeMove(final Move move) {
-        return new MoveTransition(this.board, move.undo(), move, MoveStatus.DONE);
     }
 
     public abstract Collection<Piece> getActivePieces();

@@ -27,14 +27,12 @@ public final class Table extends Observable {
     private final JFrame gameFrame;
     private final BoardPanel boardPanel;
     private final GameSetup gameSetup;
-    private final MoveLog moveLog;
 
     private Board chessBoard;
     private Move computerMove;
     private Piece sourceTile;
-    private Tile destinationTile;
     private Piece humanMovedPiece;
-    private static String defaultPieceImagesPath = "pictures/pieces/plain/";
+    private static String defaultPieceImagesPath = "pictures/pieces/";
     private Color lightTileColor = Color.decode("#FFFFFF");
     private Color darkTileColor = Color.decode("#000000");
 
@@ -52,7 +50,6 @@ public final class Table extends Observable {
         this.gameFrame.setLayout(new BorderLayout());
         this.chessBoard = Board.createStandardBoard();
         this.boardPanel = new BoardPanel();
-        this.moveLog = new MoveLog();
         this.addObserver(new TableGameAIWatcher());
         this.gameSetup = new GameSetup(this.gameFrame, true);
         this.gameFrame.add(this.boardPanel, BorderLayout.CENTER);
@@ -71,7 +68,6 @@ public final class Table extends Observable {
     }
 
 
-
     private BoardPanel getBoardPanel() {
         return this.boardPanel;
     }
@@ -82,13 +78,12 @@ public final class Table extends Observable {
     }
 
     public void show() {
-        Table.get().getMoveLog().clear();
         Table.get().getBoardPanel().drawBoard(Table.get().getGameBoard());
     }
 
-    private void populateMenuBar(final JMenuBar tableMenuBar) {tableMenuBar.add(createOptionsMenu()); }
-
-
+    private void populateMenuBar(final JMenuBar tableMenuBar) {
+        tableMenuBar.add(createOptionsMenu());
+    }
 
 
     private JMenu createOptionsMenu() {
@@ -125,10 +120,6 @@ public final class Table extends Observable {
 
     private void updateComputerMove(final Move move) {
         this.computerMove = move;
-    }
-
-    private MoveLog getMoveLog(){
-        return this.moveLog;
     }
 
 
@@ -173,38 +164,6 @@ public final class Table extends Observable {
 
     }
 
-    public static class MoveLog {
-        private final List<Move> moves;
-        MoveLog() {
-            this.moves = new ArrayList<>();
-        }
-
-        public List<Move> getMoves() {
-            return this.moves;
-        }
-
-        public void addMove(final Move move) {
-            this.moves.add(move);
-        }
-
-
-        public int size() {
-            return this.moves.size();
-        }
-
-        public void clear() {
-            this.moves.clear();
-        }
-
-        public Move removeMove(int index) {
-            return this.moves.remove(index);
-        }
-
-        public boolean removeMove(final Move move) {
-            return this.moves.remove(move);
-        }
-
-    }
 
     enum PlayerType {
         HUMAN,
@@ -222,12 +181,12 @@ public final class Table extends Observable {
             final Move bestMove = miniMax.execute(Table.get().getGameBoard());
             return bestMove;
         }
+
         public void done() {
             try {
                 final Move bestMove = get();
                 Table.get().updateComputerMove(bestMove);
                 Table.get().updateGameBoard(Table.get().getGameBoard().currentPlayer().makeMove(bestMove).getToBoard());
-                Table.get().getMoveLog().addMove(bestMove);
                 Table.get().getBoardPanel().drawBoard(Table.get().getGameBoard());
                 Table.get().moveMadeUpdate(PlayerType.COMPUTER);
             } catch (final Exception e) {
@@ -241,7 +200,7 @@ public final class Table extends Observable {
         final List<TilePanel> boardTiles;
 
         BoardPanel() {
-            super(new GridLayout(8,8));
+            super(new GridLayout(8, 8));
             this.boardTiles = new ArrayList<>();
             for (int i = 0; i < BoardUtils.NUM_TILES; i++) {
                 final TilePanel tilePanel = new TilePanel(this, i);
@@ -252,9 +211,9 @@ public final class Table extends Observable {
             validate();
         }
 
-        public void drawBoard( final Board board){
+        public void drawBoard(final Board board) {
             removeAll();
-            for (final TilePanel tilePanel : boardTiles){
+            for (final TilePanel tilePanel : boardTiles) {
                 tilePanel.drawTile(board);
                 add(tilePanel);
             }
@@ -279,7 +238,7 @@ public final class Table extends Observable {
                 @Override
                 public void mouseClicked(final MouseEvent event) {
 
-                    if(Table.get().getGameSetup().isAIPlayer(Table.get().getGameBoard().currentPlayer()) ||
+                    if (Table.get().getGameSetup().isAIPlayer(Table.get().getGameBoard().currentPlayer()) ||
                             BoardUtils.isEndGame(Table.get().getGameBoard())) {
                         return;
                     }
@@ -300,16 +259,13 @@ public final class Table extends Observable {
                             final MoveTransition transition = chessBoard.currentPlayer().makeMove(move);
                             if (transition.getMoveStatus().isDone()) {
                                 chessBoard = transition.getToBoard();
-                                moveLog.addMove(move);
                             }
                             sourceTile = null;
                             humanMovedPiece = null;
                         }
                     }
                     invokeLater(() -> {
-                        //if (gameSetup.isAIPlayer(chessBoard.currentPlayer())) {
                         Table.get().moveMadeUpdate(PlayerType.HUMAN);
-                        //}
                         boardPanel.drawBoard(chessBoard);
                     });
                 }
@@ -348,8 +304,7 @@ public final class Table extends Observable {
                     if (move.getDestinationCoordinate() == this.tileId) {
                         try {
                             add(new JLabel(new ImageIcon(ImageIO.read(new File("pictures/red_dot.png")))));
-                        }
-                        catch (final IOException e) {
+                        } catch (final IOException e) {
                             e.printStackTrace();
                         }
                     }
@@ -358,19 +313,19 @@ public final class Table extends Observable {
         }
 
         private Collection<Move> pieceLegalMoves(final Board board) {
-            if(humanMovedPiece != null && humanMovedPiece.getPieceAllegiance() == board.currentPlayer().getAlliance()) {
+            if (humanMovedPiece != null && humanMovedPiece.getPieceAllegiance() == board.currentPlayer().getAlliance()) {
                 return humanMovedPiece.calculateLegalMoves(board);
             }
             return Collections.emptyList();
         }
 
 
-        private void assignTilePieceIcon(final Board board){
+        private void assignTilePieceIcon(final Board board) {
             this.removeAll();
-            if(board.getTile(this.tileId).isTileOccupied()){
+            if (board.getTile(this.tileId).isTileOccupied()) {
                 try {
                     final BufferedImage image = ImageIO.read(new File(defaultPieceImagesPath +
-                            board.getTile(this.tileId).getPiece().getPieceAllegiance().toString().substring(0,1)+
+                            board.getTile(this.tileId).getPiece().getPieceAllegiance().toString().substring(0, 1) +
                             board.getTile(this.tileId).getPiece().toString() + ".gif"));
                     add(new JLabel(new ImageIcon(image)));
                 } catch (IOException e) {
@@ -386,9 +341,9 @@ public final class Table extends Observable {
                     BoardUtils.INSTANCE.FIFTH_ROW.get(this.tileId) ||
                     BoardUtils.INSTANCE.SEVENTH_ROW.get(this.tileId)) {
                 setBackground(this.tileId % 2 == 0 ? lightTileColor : darkTileColor);
-            } else if(BoardUtils.INSTANCE.SECOND_ROW.get(this.tileId) ||
+            } else if (BoardUtils.INSTANCE.SECOND_ROW.get(this.tileId) ||
                     BoardUtils.INSTANCE.FOURTH_ROW.get(this.tileId) ||
-                    BoardUtils.INSTANCE.SIXTH_ROW.get(this.tileId)  ||
+                    BoardUtils.INSTANCE.SIXTH_ROW.get(this.tileId) ||
                     BoardUtils.INSTANCE.EIGHTH_ROW.get(this.tileId)) {
                 setBackground(this.tileId % 2 != 0 ? lightTileColor : darkTileColor);
             }

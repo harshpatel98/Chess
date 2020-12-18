@@ -42,8 +42,7 @@ public final class Bishop extends Piece {
                     final Piece pieceAtDestination = board.getPiece(candidateDestinationCoordinate);
                     if (pieceAtDestination == null) {
                         legalMoves.add(new MajorMove(board, this, candidateDestinationCoordinate));
-                    }
-                    else {
+                    } else {
                         final Alliance pieceAlliance = pieceAtDestination.getPieceAllegiance();
                         if (this.pieceAlliance != pieceAlliance) {
                             legalMoves.add(new MajorAttackMove(board, this, candidateDestinationCoordinate,

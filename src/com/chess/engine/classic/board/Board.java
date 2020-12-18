@@ -40,7 +40,6 @@ public final class Board {
     }
 
 
-
     public Collection<Piece> getBlackPieces() {
         return this.blackPieces;
     }
@@ -59,13 +58,15 @@ public final class Board {
         return Stream.concat(this.whitePlayer.getLegalMoves().stream(),
                 this.blackPlayer.getLegalMoves().stream()).collect(Collectors.toList());
     }
-    public Tile getTile(final int tileCord){
+
+    public Tile getTile(final int tileCord) {
         return gameBoard.get(tileCord);
     }
+
     //create a board with 64 tiles
-    private static List<Tile> createGameBoard(final Builder builder){
+    private static List<Tile> createGameBoard(final Builder builder) {
         final Tile[] tiles = new Tile[BoardUtils.NUM_TILES];
-        for(int i=0; i< BoardUtils.NUM_TILES; i++){
+        for (int i = 0; i < BoardUtils.NUM_TILES; i++) {
             tiles[i] = Tile.createTile(i, builder.boardConfig.get(i));
         }
         return ImmutableList.copyOf(tiles);

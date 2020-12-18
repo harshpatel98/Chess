@@ -4,7 +4,6 @@ import com.chess.engine.classic.board.Board;
 import com.chess.engine.classic.board.Move;
 import com.chess.engine.classic.pieces.Piece;
 import com.chess.engine.classic.player.Player;
-//import com.chess.engine.classic.player.ai.KingSafetyAnalyzer.KingDistance;
 import com.google.common.annotations.VisibleForTesting;
 
 import static com.chess.engine.classic.pieces.Piece.PieceType.BISHOP;
@@ -94,10 +93,5 @@ public final class  StandardBoardEvaluator
     private static int castle(final Player player) {
         return player.isCastled() ? CASTLE_BONUS : 0;
     }
-
-
-//    private static int rookStructure(final Player player) {
-//        return RookStructureAnalyzer.get().rookStructureScore(player);
-//    }
 
 }
